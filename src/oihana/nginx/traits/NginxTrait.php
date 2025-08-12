@@ -439,5 +439,5 @@ trait NginxTrait
     protected const string DIR_SITES_ENABLED    = 'dirSitesEnabled'    ;
     protected const string FILE_SITES_AVAILABLE = 'fileSitesAvailable' ;
     protected const string FILE_SITES_ENABLED   = 'fileSitesEnabled'   ;
-    protected const string NGINX_OPTIONS        = 'nginxOptions'   ;
+    protected const string NGINX_OPTIONS        = 'nginxOptions'       ;
 }

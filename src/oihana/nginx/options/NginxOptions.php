@@ -63,6 +63,12 @@ class NginxOptions extends Options
     public ?string $init = null ;
 
     /**
+     * The nginx directory where we can find the nginx logs.
+     * @var string|null
+     */
+    public ?string $logs = null ;
+
+    /**
      * Set nginx path prefix, i.e. a directory that will keep server files (default value is /usr/local/nginx).
      * @var bool|null
      */
@@ -154,6 +160,7 @@ class NginxOptions extends Options
                 NginxOption::CONF ,
                 NginxOption::DIR  ,
                 NginxOption::INIT ,
+                NginxOption::LOGS ,
                 NginxOption::SUDO ,
             ] ,
         ) ;

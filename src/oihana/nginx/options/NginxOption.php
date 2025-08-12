@@ -25,11 +25,12 @@ class NginxOption extends Option
 
     // ---------- Extras options
 
-    public const string CONF = 'conf' ;
-    public const string DIR  = 'dir'  ;
-    public const string INIT = 'init' ;
-    public const string LOGS = 'logs' ;
-    public const string SUDO = 'sudo' ;
+    public const string CONF    = 'conf'    ;
+    public const string DIR     = 'dir'     ;
+    public const string ENABLED = 'enabled' ;
+    public const string INIT    = 'init'    ;
+    public const string LOGS    = 'logs'    ;
+    public const string SUDO    = 'sudo'    ;
 
     // ----------
 

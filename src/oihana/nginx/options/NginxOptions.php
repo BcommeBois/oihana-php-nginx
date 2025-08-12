@@ -35,6 +35,12 @@ class NginxOptions extends Options
     public ?string $dir = null ;
 
     /**
+     * Indicates if the nginx commands are enabled. Default true.
+     * @var bool|null
+     */
+    public ?bool $enabled = true ;
+
+    /**
      * Use an alternative error log file to store the log instead of a default file (1.19.5).
      * The special value stderr selects the standard error file.
      * @var string|null
@@ -157,11 +163,12 @@ class NginxOptions extends Options
             prefix   : Char::HYPHEN ,
             excludes : // Extras options
             [
-                NginxOption::CONF ,
-                NginxOption::DIR  ,
-                NginxOption::INIT ,
-                NginxOption::LOGS ,
-                NginxOption::SUDO ,
+                NginxOption::CONF    ,
+                NginxOption::DIR     ,
+                NginxOption::ENABLED ,
+                NginxOption::INIT    ,
+                NginxOption::LOGS    ,
+                NginxOption::SUDO    ,
             ] ,
         ) ;
     }

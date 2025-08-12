@@ -1,6 +1,6 @@
 # Oihana PHP - Nginx
 
-[![Oihana PHP System](https://raw.githubusercontent.com/BcommeBois/oihana-php-nginx/main/assets/images/oihana-php-nginx-logo-inline-512x160.png)](https://github.com/BcommeBois/oihana-php-nginx)
+[![Oihana PHP Nginx](https://raw.githubusercontent.com/BcommeBois/oihana-php-nginx/main/assets/images/oihana-php-nginx-logo-inline-512x160.png)](https://github.com/BcommeBois/oihana-php-nginx)
 
 PHP toolkit to create, modify, and control [NGINX](https://nginx.org/) configurations and commands programmatically.
 

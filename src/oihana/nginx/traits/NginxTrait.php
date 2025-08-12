@@ -155,7 +155,7 @@ trait NginxTrait
      */
     public function nginxConfigExists( string $fileName, array|NginxOptions|null $options = null, bool $checkSymlink = false): bool
     {
-        $paths = $this->resolveNginxFilePaths($fileName, $options);
+        $paths = $this->resolveNginxFilePaths( $fileName , $options ) ;
 
         $fileSitesAvailable = $paths[ static::FILE_SITES_AVAILABLE ] ;
         $fileSitesEnabled   = $paths[ static::FILE_SITES_ENABLED   ] ;

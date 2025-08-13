@@ -5,6 +5,7 @@ namespace oihana\nginx\helpers\blocks ;
 use InvalidArgumentException;
 
 use oihana\enums\Char;
+
 use oihana\nginx\enums\RedirectDirection;
 
 use function oihana\core\strings\block;

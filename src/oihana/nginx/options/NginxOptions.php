@@ -2,11 +2,13 @@
 
 namespace oihana\nginx\options;
 
-use oihana\nginx\enums\NginxPath;
 use ReflectionException;
 
-use oihana\options\Options;
 use oihana\enums\Char;
+
+use oihana\options\Options;
+
+use oihana\nginx\enums\NginxPath;
 use oihana\nginx\enums\NginxSignal;
 
 use function oihana\files\path\joinPaths;

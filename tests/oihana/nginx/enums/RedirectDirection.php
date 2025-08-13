@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace tests\oihana\nginx\helpers\enums ;
 
 use oihana\nginx\enums\RedirectDirection;
-use oihana\reflections\exceptions\ConstantException;
+use oihana\reflect\exceptions\ConstantException;
 use PHPUnit\Framework\TestCase;
 
 final class RedirectDirectionTest extends TestCase

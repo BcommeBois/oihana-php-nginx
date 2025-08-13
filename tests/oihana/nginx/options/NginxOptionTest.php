@@ -3,7 +3,7 @@
 namespace tests\oihana\nginx\options;
 
 use oihana\nginx\options\NginxOption;
-use oihana\reflections\exceptions\ConstantException;
+use oihana\reflect\exceptions\ConstantException;
 
 use PHPUnit\Framework\TestCase;
 
@@ -19,17 +19,21 @@ class NginxOptionTest extends TestCase
         $enums = NginxOption::enums();
         $expected =
         [
+            // ---- extras
             'conf',
-            'config',
             'dir',
+            'enabled',
+            'init',
+            'logs',
+            'sudo',
+            // ---- Common
+            'config',
             'error',
             'global',
             'help',
-            'init',
             'prefix',
             'quiet',
             'signal',
-            'sudo',
             'test',
             'testFull',
             'version',
@@ -85,6 +89,9 @@ class NginxOptionTest extends TestCase
         NginxOption::validate(NginxOption::VERSION);
     }
 
+    /**
+     * @throws \oihana\reflections\exceptions\ConstantException
+     */
     public function testValidateThrowsForInvalidValue()
     {
         $this->expectException(ConstantException::class);

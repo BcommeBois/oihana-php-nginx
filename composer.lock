@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11eaf63cc2829e5e22d309435ea1290f",
+    "content-hash": "c41b59ec08bd655d32b87dba13fe45e0",
     "packages": [
         {
             "name": "devium/toml",
@@ -245,17 +245,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-commands.git",
-                "reference": "e12c2d5543ac286f57e1398f1f507edf2ed36b59"
+                "reference": "85a0e1906477bd9ec5b8fbb1178020b2237cde78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-commands/zipball/e12c2d5543ac286f57e1398f1f507edf2ed36b59",
-                "reference": "e12c2d5543ac286f57e1398f1f507edf2ed36b59",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-commands/zipball/85a0e1906477bd9ec5b8fbb1178020b2237cde78",
+                "reference": "85a0e1906477bd9ec5b8fbb1178020b2237cde78",
                 "shasum": ""
             },
             "require": {
                 "oihana/php-core": "dev-main",
+                "oihana/php-enums": "dev-main",
                 "oihana/php-files": "dev-main",
+                "oihana/php-reflect": "dev-main",
                 "oihana/php-schema": "dev-main",
                 "oihana/php-standards": "dev-main",
                 "oihana/php-system": "dev-main",
@@ -278,6 +280,7 @@
                     "src/oihana/commands/helpers/assertDomain.php",
                     "src/oihana/commands/helpers/clearConsole.php",
                     "src/oihana/commands/helpers/domainExists.php",
+                    "src/oihana/commands/helpers/escapeForPrintf.php",
                     "src/oihana/commands/helpers/makeCommand.php",
                     "src/oihana/commands/helpers/silent.php"
                 ],
@@ -309,7 +312,7 @@
                 "issues": "https://github.com/BcommeBois/oihana-php-commands/issues",
                 "source": "https://github.com/BcommeBois/oihana-php-commands/tree/main"
             },
-            "time": "2025-08-12T10:07:06+00:00"
+            "time": "2025-08-13T14:59:32+00:00"
         },
         {
             "name": "oihana/php-core",
@@ -317,12 +320,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-core.git",
-                "reference": "f3dc6ed1aef97fd68acf0f4f451d7cf574f72219"
+                "reference": "774a85f841f35bba062be234b96652309e2b002d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-core/zipball/f3dc6ed1aef97fd68acf0f4f451d7cf574f72219",
-                "reference": "f3dc6ed1aef97fd68acf0f4f451d7cf574f72219",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-core/zipball/774a85f841f35bba062be234b96652309e2b002d",
+                "reference": "774a85f841f35bba062be234b96652309e2b002d",
                 "shasum": ""
             },
             "require": {
@@ -379,7 +382,6 @@
                     "src/oihana/core/maths/floorValue.php",
                     "src/oihana/core/maths/roundValue.php",
                     "src/oihana/core/numbers/clip.php",
-                    "src/oihana/core/reflections/getFunctionInfo.php",
                     "src/oihana/core/objects/compress.php",
                     "src/oihana/core/objects/ensureObjectPath.php",
                     "src/oihana/core/objects/set.php",
@@ -416,11 +418,8 @@
                 ],
                 "psr-4": {
                     "oihana\\core\\": "src/oihana/core",
-                    "oihana\\enums\\": "src/oihana/enums",
-                    "oihana\\options\\": "src/oihana/options",
                     "oihana\\exceptions\\": "src/oihana/exceptions",
-                    "oihana\\interfaces\\": "src/oihana/interfaces",
-                    "oihana\\reflections\\": "src/oihana/reflections"
+                    "oihana\\interfaces\\": "src/oihana/interfaces"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -446,7 +445,65 @@
                 "issues": "https://github.com/BcommeBois/oihana-php-core/issues",
                 "source": "https://github.com/BcommeBois/oihana-php-core/tree/main"
             },
-            "time": "2025-08-11T16:07:44+00:00"
+            "time": "2025-08-13T14:57:00+00:00"
+        },
+        {
+            "name": "oihana/php-enums",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BcommeBois/oihana-php-enums.git",
+                "reference": "c78329afa86556369f1e2b6159afa9f22ae3a6ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-enums/zipball/c78329afa86556369f1e2b6159afa9f22ae3a6ff",
+                "reference": "c78329afa86556369f1e2b6159afa9f22ae3a6ff",
+                "shasum": ""
+            },
+            "require": {
+                "oihana/php-core": "dev-main",
+                "oihana/php-reflect": "dev-main",
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "nunomaduro/collision": "^8.8",
+                "phpdocumentor/shim": "^3.8",
+                "phpunit/phpunit": "^12"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "oihana\\enums\\": "src/oihana/enums"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Alcaraz",
+                    "email": "marc@ooop.fr",
+                    "homepage": "https://www.ooop.fr",
+                    "role": "Project Founder, Lead Developer."
+                }
+            ],
+            "description": "A collection of strongly-typed constant enumerations for PHP",
+            "homepage": "https://github.com/BcommeBois/oihana-php-reflect",
+            "keywords": [
+                "constants",
+                "enums",
+                "php"
+            ],
+            "support": {
+                "email": "marc@ooop.fr",
+                "issues": "https://github.com/BcommeBois/oihana-php-enums/issues",
+                "source": "https://github.com/BcommeBois/oihana-php-enums/tree/1.0.0"
+            },
+            "time": "2025-08-13T14:11:04+00:00"
         },
         {
             "name": "oihana/php-files",
@@ -454,12 +511,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-files.git",
-                "reference": "1e38be7544776f2d9bcf8c5bd6580e0fe9d861f1"
+                "reference": "65664eddf4baa7e6fcafa3d8836b5a5d23074689"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-files/zipball/1e38be7544776f2d9bcf8c5bd6580e0fe9d861f1",
-                "reference": "1e38be7544776f2d9bcf8c5bd6580e0fe9d861f1",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-files/zipball/65664eddf4baa7e6fcafa3d8836b5a5d23074689",
+                "reference": "65664eddf4baa7e6fcafa3d8836b5a5d23074689",
                 "shasum": ""
             },
             "require": {
@@ -467,10 +524,13 @@
                 "ext-fileinfo": "*",
                 "ext-openssl": "*",
                 "oihana/php-core": "dev-main",
+                "oihana/php-enums": "dev-main",
+                "oihana/php-reflect": "dev-main",
                 "php": ">=8.4"
             },
             "require-dev": {
                 "ext-posix": "*",
+                "ext-zlib": "*",
                 "mikey179/vfsstream": "^1.6",
                 "nunomaduro/collision": "^8.8",
                 "phpdocumentor/shim": "^3.8",
@@ -544,7 +604,8 @@
                     "src/oihana/files/validateMimeType.php"
                 ],
                 "psr-4": {
-                    "oihana\\files\\": "src/oihana/files"
+                    "oihana\\files\\": "src/oihana/files",
+                    "oihana\\options\\": "src/oihana/options"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -572,7 +633,67 @@
                 "issues": "https://github.com/BcommeBois/oihana-php-files/issues",
                 "source": "https://github.com/BcommeBois/oihana-php-files/tree/main"
             },
-            "time": "2025-08-10T09:06:32+00:00"
+            "time": "2025-08-13T14:46:57+00:00"
+        },
+        {
+            "name": "oihana/php-reflect",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BcommeBois/oihana-php-reflect.git",
+                "reference": "8da5d4084ad5b0fcbf4638c5f7077e6e9b163cc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-reflect/zipball/8da5d4084ad5b0fcbf4638c5f7077e6e9b163cc7",
+                "reference": "8da5d4084ad5b0fcbf4638c5f7077e6e9b163cc7",
+                "shasum": ""
+            },
+            "require": {
+                "oihana/php-core": "dev-main",
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "nunomaduro/collision": "^8.8",
+                "phpdocumentor/shim": "^3.8",
+                "phpunit/phpunit": "^12"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/oihana/reflect/helpers/getFunctionInfo.php"
+                ],
+                "psr-4": {
+                    "oihana\\reflect\\": "src/oihana/reflect"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Alcaraz",
+                    "email": "marc@ooop.fr",
+                    "homepage": "https://www.ooop.fr",
+                    "role": "Project Founder, Lead Developer."
+                }
+            ],
+            "description": "The Oihana PHP Reflection library",
+            "homepage": "https://github.com/BcommeBois/oihana-php-reflect",
+            "keywords": [
+                "hydratation",
+                "php",
+                "reflection"
+            ],
+            "support": {
+                "email": "marc@ooop.fr",
+                "issues": "https://github.com/BcommeBois/oihana-php-reflect/issues",
+                "source": "https://github.com/BcommeBois/oihana-php-reflect/tree/main"
+            },
+            "time": "2025-08-13T14:27:43+00:00"
         },
         {
             "name": "oihana/php-schema",
@@ -580,16 +701,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-schema.git",
-                "reference": "6dedc0db085977bbbeb68228e21b8966e1ed9618"
+                "reference": "64b6a03ae627c088b72588eeb021bfe11c7e77be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-schema/zipball/6dedc0db085977bbbeb68228e21b8966e1ed9618",
-                "reference": "6dedc0db085977bbbeb68228e21b8966e1ed9618",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-schema/zipball/64b6a03ae627c088b72588eeb021bfe11c7e77be",
+                "reference": "64b6a03ae627c088b72588eeb021bfe11c7e77be",
                 "shasum": ""
             },
             "require": {
                 "oihana/php-core": "dev-main",
+                "oihana/php-reflect": "dev-main",
                 "php": ">=8.4"
             },
             "require-dev": {
@@ -625,9 +747,9 @@
             "support": {
                 "email": "marc@ooop.fr",
                 "issues": "https://github.com/BcommeBois/oihana-php-schema/issues",
-                "source": "https://github.com/BcommeBois/oihana-php-schema/tree/main"
+                "source": "https://github.com/BcommeBois/oihana-php-schema/tree/1.0.0"
             },
-            "time": "2025-08-10T15:02:50+00:00"
+            "time": "2025-08-13T09:47:22+00:00"
         },
         {
             "name": "oihana/php-standards",
@@ -635,16 +757,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-standards.git",
-                "reference": "14e2331a94c15ac957c37dd55dc5190a5d63885d"
+                "reference": "5a1ba4317839944d7c2e7976adc799cad98b0404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-standards/zipball/14e2331a94c15ac957c37dd55dc5190a5d63885d",
-                "reference": "14e2331a94c15ac957c37dd55dc5190a5d63885d",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-standards/zipball/5a1ba4317839944d7c2e7976adc799cad98b0404",
+                "reference": "5a1ba4317839944d7c2e7976adc799cad98b0404",
                 "shasum": ""
             },
             "require": {
                 "oihana/php-core": "dev-main",
+                "oihana/php-reflect": "dev-main",
                 "php": ">=8.4"
             },
             "require-dev": {
@@ -683,9 +806,9 @@
             "support": {
                 "email": "marc@ooop.fr",
                 "issues": "https://github.com/BcommeBois/oihana-php-standards/issues",
-                "source": "https://github.com/BcommeBois/oihana-php-standards/tree/main"
+                "source": "https://github.com/BcommeBois/oihana-php-standards/tree/1.0.0"
             },
-            "time": "2025-08-11T09:19:25+00:00"
+            "time": "2025-08-13T09:29:16+00:00"
         },
         {
             "name": "oihana/php-system",
@@ -693,19 +816,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BcommeBois/oihana-php-system.git",
-                "reference": "b81c1afe927714df74c1a884159ef10248608327"
+                "reference": "19c5558f35dbc62b2ec8beef2ee9cdd6e356e5e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BcommeBois/oihana-php-system/zipball/b81c1afe927714df74c1a884159ef10248608327",
-                "reference": "b81c1afe927714df74c1a884159ef10248608327",
+                "url": "https://api.github.com/repos/BcommeBois/oihana-php-system/zipball/19c5558f35dbc62b2ec8beef2ee9cdd6e356e5e8",
+                "reference": "19c5558f35dbc62b2ec8beef2ee9cdd6e356e5e8",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
                 "monolog/monolog": "^3.9",
                 "oihana/php-core": "dev-main",
+                "oihana/php-enums": "dev-main",
                 "oihana/php-files": "dev-main",
+                "oihana/php-reflect": "dev-main",
                 "php": ">=8.4",
                 "php-di/php-di": "^7.0",
                 "psr/log": "^3.0",
@@ -759,7 +884,7 @@
                 "issues": "https://github.com/BcommeBois/oihana-php-system/issues",
                 "source": "https://github.com/BcommeBois/oihana-php-system/tree/main"
             },
-            "time": "2025-08-11T16:59:03+00:00"
+            "time": "2025-08-13T14:50:33+00:00"
         },
         {
             "name": "php-di/invoker",
@@ -3504,16 +3629,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "8.0.2",
+            "version": "8.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "d364b9e5d0d3b18a2573351a1786fbf96b7e0792"
+                "reference": "24a711b5c916efc6d6e62aa65aa2ec98fef77f68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/d364b9e5d0d3b18a2573351a1786fbf96b7e0792",
-                "reference": "d364b9e5d0d3b18a2573351a1786fbf96b7e0792",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/24a711b5c916efc6d6e62aa65aa2ec98fef77f68",
+                "reference": "24a711b5c916efc6d6e62aa65aa2ec98fef77f68",
                 "shasum": ""
             },
             "require": {
@@ -3556,7 +3681,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/8.0.2"
+                "source": "https://github.com/sebastianbergmann/environment/tree/8.0.3"
             },
             "funding": [
                 {
@@ -3576,7 +3701,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-21T15:05:44+00:00"
+            "time": "2025-08-12T14:11:56+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -3892,16 +4017,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "7.0.0",
+            "version": "7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "c405ae3a63e01b32eb71577f8ec1604e39858a7c"
+                "reference": "0b01998a7d5b1f122911a66bebcb8d46f0c82d8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/c405ae3a63e01b32eb71577f8ec1604e39858a7c",
-                "reference": "c405ae3a63e01b32eb71577f8ec1604e39858a7c",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/0b01998a7d5b1f122911a66bebcb8d46f0c82d8c",
+                "reference": "0b01998a7d5b1f122911a66bebcb8d46f0c82d8c",
                 "shasum": ""
             },
             "require": {
@@ -3944,15 +4069,27 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
                 "security": "https://github.com/sebastianbergmann/recursion-context/security/policy",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/7.0.0"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/7.0.1"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/sebastian/recursion-context",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2025-02-07T05:00:01+00:00"
+            "time": "2025-08-13T04:44:59+00:00"
         },
         {
             "name": "sebastian/type",
@@ -4185,7 +4322,9 @@
     "stability-flags": {
         "oihana/php-commands": 20,
         "oihana/php-core": 20,
+        "oihana/php-enums": 20,
         "oihana/php-files": 20,
+        "oihana/php-reflect": 20,
         "oihana/php-schema": 20,
         "oihana/php-standards": 20,
         "oihana/php-system": 20

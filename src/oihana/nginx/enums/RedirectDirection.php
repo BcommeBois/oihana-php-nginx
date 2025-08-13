@@ -2,7 +2,7 @@
 
 namespace oihana\nginx\enums;
 
-use oihana\reflections\traits\ConstantsTrait;
+use oihana\reflect\traits\ConstantsTrait;
 
 class RedirectDirection
 {

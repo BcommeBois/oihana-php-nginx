@@ -15,18 +15,91 @@ Built on top of the [Oihana PHP Commands](https://github.com/BcommeBois/oihana-p
 > **Requires [PHP 8.4+](https://php.net/releases/)**
 
 Install via [Composer](https://getcomposer.org):
-### 
+
 ```shell
 composer require oihana/php-nginx
 ```
 
-## ✅ Running Unit Tests
+## 📚 Usage
+
+### Configuration Management
+
+The library provides comprehensive tools for managing Nginx configurations:
+
+- **Path Management**: Handle different Nginx configuration paths
+- **Signal Control**: Send signals to Nginx processes
+- **Redirect Management**: Create and manage redirect blocks
+- **Options Configuration**: Configure Nginx options programmatically
+
+### Enums
+
+- `NginxPath`: Defines standard Nginx configuration paths
+- `NginxSignal`: Available Nginx process signals
+- `RedirectDirection`: Redirect direction options
+
+### Helpers
+
+- `redirectBlock()`: Generate redirect block configurations
+
+### Options
+
+- `NginxOption`: Individual Nginx option management
+- `NginxOptions`: Collection of Nginx options
+
+## 🧪 Testing
 
 To run all tests:
+
 ```shell
 composer test
 ```
 
-## 🧾 License
+## 📖 Documentation
+
+For detailed documentation, please refer to the source code and test files in the `src/` and `tests/` directories.
+
+### Project Structure
+
+```
+src/oihana/nginx/
+├── enums/           # Nginx-related enumerations
+├── helpers/         # Helper functions
+├── options/         # Configuration options
+└── traits/          # Reusable traits
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
 
 This project is licensed under the [Mozilla Public License 2.0 (MPL-2.0)](https://www.mozilla.org/en-US/MPL/2.0/).
+
+## 🔗 Dependencies
+
+This library is built on top of the **Oihana PHP Framework** and includes the following core dependencies:
+
+### Core Framework Dependencies
+
+- **oihana/php-core**: Core framework functionality
+- **oihana/php-reflect**: Reflection utilities
+- **oihana/php-enums**: Enumeration support
+- **oihana/php-schema**: Schema validation
+- **oihana/php-standards**: Coding standards and utilities
+- **oihana/php-files**: File system operations
+- **oihana/php-system**: System-level operations
+- **oihana/php-commands**: Command-line interface framework
+
+### Development Dependencies
+
+- **phpunit/phpunit**: Unit testing framework
+- **nunomaduro/collision**: Error reporting for console applications
+- **mikey179/vfsstream**: Virtual file system for testing
+- **phpdocumentor/shim**: Documentation generation support
+
+All framework dependencies are currently using the `dev-main` branch for development purposes (alpha version).

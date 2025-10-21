@@ -15,8 +15,8 @@ use oihana\files\exceptions\FileException;
 use oihana\nginx\options\NginxOption;
 use oihana\nginx\options\NginxOptions;
 
+use function oihana\core\env\isMac;
 use function oihana\files\assertDirectory;
-use function oihana\files\isMac;
 use function oihana\files\path\joinPaths;
 
 /**

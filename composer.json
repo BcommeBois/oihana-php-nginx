@@ -44,7 +44,6 @@
         "oihana/php-schema": "dev-main",
         "oihana/php-standards": "dev-main",
         "oihana/php-files": "dev-main",
-        "oihana/php-system": "dev-main",
         "oihana/php-commands": "dev-main"
     },
     "require-dev": {
@@ -53,6 +52,8 @@
         "mikey179/vfsstream": "^1.6",
         "phpdocumentor/shim": "^3.8"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "phpdocumentor/shim": true

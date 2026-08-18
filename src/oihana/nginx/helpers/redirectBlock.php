@@ -6,6 +6,8 @@ use InvalidArgumentException;
 
 use oihana\enums\Char;
 
+use oihana\enums\http\UriScheme;
+
 use oihana\nginx\enums\RedirectDirection;
 
 use function oihana\core\strings\block;
@@ -17,8 +19,11 @@ use function oihana\core\strings\block;
  * @param array|string|null $subdomains Subdomain(s) like "www".
  * @param string           $direction   One of RedirectDirection::INBOUND or ::OUTBOUND.
  * @param string|int       $indent      Indentation (string or number of spaces).
- *
- * @param bool $comment Adds a comment before each block.
+ * @param bool             $comment     Adds a comment before each block.
+ * @param string           $scheme      One of UriScheme::HTTPS (default) or ::HTTP. A site
+ *                                      that is not behind a certificate has to be sent to
+ *                                      `http`, or the redirection points at an endpoint nothing
+ *                                      serves.
  *
  * @return string Combined NGINX redirection blocks.
  *
@@ -36,26 +41,20 @@ use function oihana\core\strings\block;
  * Output:
  * ```
  *     ### Redirect ooop.fr to www.ooop.fr ###
- *     if ($host ~* ^ooop\\.fr$)
- *     {
- *         rewrite ^(.*) https://www.ooop.fr$1 permanent;
- *         break
+ *     if ($host = 'ooop.fr') {
+ *         return 301 https://www.ooop.fr$request_uri;
  *     }
  *
  *     ### Redirect ooopener.com to www.ooopener.com ###
- *     if ($host ~* ^ooopener\\.com$)
- *     {
- *         rewrite ^(.*) https://www.ooopener.com$1 permanent;
- *         break
+ *     if ($host = 'ooopener.com') {
+ *         return 301 https://www.ooopener.com$request_uri;
  *     }
  *
  *     ### Redirect www.ooop.fr to ooop.fr ###
- *     if ($host ~* ^www\\.ooop\\.fr$)
- *     {
- *         rewrite ^(.*) https://ooop.fr$1 permanent;
- *         break
+ *     if ($host = 'www.ooop.fr') {
+ *         return 301 https://ooop.fr$request_uri;
  *     }
- * ``
+ * ```
  */
 function redirectBlock
 (
@@ -63,7 +62,8 @@ function redirectBlock
     array|string|null $subdomains = 'www' ,
     string            $direction  = RedirectDirection::OUTBOUND ,
     string|int        $indent     = Char::EMPTY,
-    bool              $comment    = true
+    bool              $comment    = true ,
+    string            $scheme     = UriScheme::HTTPS
 )
 : string
 {
@@ -82,6 +82,13 @@ function redirectBlock
                 fn( $v ) => $v !== Char::EMPTY
             );
         };
+    }
+
+    // UriScheme carries more than these two; a 301 between hosts is only meaningful over
+    // http or https, so the restriction belongs here rather than in the enum.
+    if ( $scheme !== UriScheme::HTTP && $scheme !== UriScheme::HTTPS )
+    {
+        throw new InvalidArgumentException( "Invalid redirection scheme : $scheme" ) ;
     }
 
     $domains    = $clean( $domains    ) ;
@@ -135,7 +142,7 @@ function redirectBlock
             [
                 ...$lines,
                 "if (\$host = '{$from}') {",
-                "    return 301 https://{$to}\$request_uri;",
+                "    return 301 {$scheme}://{$to}\$request_uri;",
                 "}"
             ];
 

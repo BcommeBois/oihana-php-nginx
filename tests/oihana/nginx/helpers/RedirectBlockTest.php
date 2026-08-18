@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace tests\oihana\nginx\helpers\blocks ;
 
 use InvalidArgumentException;
+use oihana\enums\http\UriScheme;
 use oihana\nginx\enums\RedirectDirection;
 use PHPUnit\Framework\TestCase;
 
@@ -75,6 +76,46 @@ NGINX;
         $output = redirectBlock('example.com', 'www', RedirectDirection::OUTBOUND, 0, false);
 
         $this->assertStringNotContainsString('### Redirect', $output);
+    }
+
+    /**
+     * The scheme was written into the block and could not be asked for.
+     *
+     * `https` is right for a site behind a certificate and wrong for every site that is not
+     * yet: the redirection pointed at an endpoint nothing served, and where the application
+     * sends visitors back to its own canonical URL, the two closed a loop.
+     */
+    public function testTheSchemeDefaultsToHttps(): void
+    {
+        $this->assertSame
+        (
+            redirectBlock( 'example.com' , 'www' , RedirectDirection::OUTBOUND , 4 ) ,
+            redirectBlock( 'example.com' , 'www' , RedirectDirection::OUTBOUND , 4 , true , UriScheme::HTTPS ) ,
+            'Callers that ask for nothing must keep the block they had.'
+        ) ;
+    }
+
+    public function testAnHttpSchemeIsRendered(): void
+    {
+        $output = redirectBlock( 'example.com' , 'www' , RedirectDirection::OUTBOUND , 4 , true , UriScheme::HTTP ) ;
+
+        $expected = <<<NGINX
+    ### Redirect example.com to www.example.com ###
+    if (\$host = 'example.com') {
+        return 301 http://www.example.com\$request_uri;
+    }
+NGINX;
+
+        $this->assertStringContainsString( $expected , $output ) ;
+        $this->assertStringNotContainsString( 'https://' , $output ) ;
+    }
+
+    public function testAnUnknownSchemeThrowsException(): void
+    {
+        $this->expectException( InvalidArgumentException::class ) ;
+        $this->expectExceptionMessage( 'Invalid redirection scheme : ftp' ) ;
+
+        redirectBlock( 'example.com' , 'www' , RedirectDirection::OUTBOUND , 4 , true , 'ftp' ) ;
     }
 
     public function testInvalidDirectionThrowsException(): void

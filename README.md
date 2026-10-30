@@ -40,6 +40,9 @@ The library provides comprehensive tools for managing Nginx configurations:
 ### Helpers
 
 - `redirectBlock()`: Generate redirect block configurations
+- `nginxStatements()`: Split a configuration into its instructions, comments and layout left out, to compare two files instruction by instruction
+- `vhostAcmeRoot()`: Read the directory a vhost serves the ACME challenge from
+- `vhostCertificateName()`: Read the name of the certbot certificate a vhost serves
 
 ### Options
 
@@ -52,6 +55,12 @@ To run all tests:
 
 ```shell
 composer test
+```
+
+To measure the coverage, with Xdebug (an HTML report and a Markdown summary land in `build/coverage/`):
+
+```shell
+composer coverage:md
 ```
 
 ## 📖 Documentation

@@ -18,7 +18,12 @@
     },
     "scripts": {
         "console": "bin/console",
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text --coverage-clover build/coverage/clover.xml --coverage-html build/coverage/html",
+        "coverage:md": [
+            "@coverage",
+            "php tools/clover-to-markdown.php build/coverage/clover.xml build/coverage/COVERAGE.md"
+        ]
     },
     "autoload": {
         "psr-4" :
@@ -27,7 +32,10 @@
         },
         "files":
         [
-            "src/oihana/nginx/helpers/redirectBlock.php"
+            "src/oihana/nginx/helpers/nginxStatements.php",
+            "src/oihana/nginx/helpers/redirectBlock.php",
+            "src/oihana/nginx/helpers/vhostAcmeRoot.php",
+            "src/oihana/nginx/helpers/vhostCertificateName.php"
         ]
     },
     "autoload-dev": {

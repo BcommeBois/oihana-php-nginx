@@ -24,14 +24,20 @@ use function oihana\files\path\joinPaths;
  */
 trait NginxTrait
 {
-    use ConsoleLoggerTrait,
-        CommandTrait ,
-        FileTrait ;
+    use CommandTrait       ,
+        ConsoleLoggerTrait ,
+        FileTrait          ;
 
     /**
      * The 'nginx' constant.
      */
     public const string NGINX = 'nginx' ;
+
+    protected const string DIR_SITES_AVAILABLE  = 'dirSitesAvailable'  ;
+    protected const string DIR_SITES_ENABLED    = 'dirSitesEnabled'    ;
+    protected const string FILE_SITES_AVAILABLE = 'fileSitesAvailable' ;
+    protected const string FILE_SITES_ENABLED   = 'fileSitesEnabled'   ;
+    protected const string NGINX_OPTIONS        = 'nginxOptions'       ;
 
     /**
      * Holds the default options for the nginx command.
@@ -40,29 +46,23 @@ trait NginxTrait
     public ?NginxOptions $nginxOptions  = null ;
 
     /**
-     * Initializes the internal core install options using an array of configuration values.
+     * Initializes the default options of the nginx commands.
      *
-     * This method supports structured initialization using keys like `core.install`, or directly
-     * from a flat array of parameters.
+     * The options are read under the `nginx` key when there is one, so a whole configuration can
+     * be given as it is; otherwise the array itself is read as the options.
      *
      * Example input:
      * ```php
      * [
-     *   'core' =>
+     *   'nginx' =>
      *   [
-     *     'install' =>
-     *     [
-     *       'url'            => 'https://example.com' ,
-     *       'title'          => 'My Site' ,
-     *       'admin_user'     => 'admin' ,
-     *       'admin_password' => 'secret' ,
-     *       'admin_email'    => 'admin@example.com'
-     *     ]
+     *     'dir'  => '/etc/nginx' ,
+     *     'sudo' => true ,
      *   ]
      * ]
      * ```
      *
-     * @param array $init Optional associative array for initializing install parameters.
+     * @param array $init The options, under an `nginx` key or flat.
      * @return static Returns the current instance for method chaining.
      */
     public function initializeNginxOptions( array $init = [] ) :static
@@ -143,37 +143,6 @@ trait NginxTrait
     }
 
     /**
-     * Checks if the Nginx configuration file exists (and optionally its symlink).
-     *
-     * @param string                  $fileName The name of the nginx config file (ex: example.com.www).
-     * @param array|NginxOptions|null $options  Optional Nginx options to resolve paths.
-     * @param bool $checkSymlink      Whether to also check if the symlink in sites-enabled exists.
-     *
-     * @return bool True if the file (and optionally the symlink) exists.
-     *
-     * @throws DirectoryException
-     */
-    public function nginxConfigExists( string $fileName, array|NginxOptions|null $options = null, bool $checkSymlink = false): bool
-    {
-        $paths = $this->resolveNginxFilePaths( $fileName , $options ) ;
-
-        $fileSitesAvailable = $paths[ static::FILE_SITES_AVAILABLE ] ;
-        $fileSitesEnabled   = $paths[ static::FILE_SITES_ENABLED   ] ;
-
-        if ( !is_file( $fileSitesAvailable ) )
-        {
-            return false;
-        }
-
-        if ( $checkSymlink && !is_link($fileSitesEnabled ) )
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Delete an Nginx config for a specific domain (and subdomain - optional).
      * @param string $fileName The name of the config file.
      * @param array|NginxOptions|null $options Optional install options. Can be a flat array, a NginxOptions instance, or null to use internal defaults.
@@ -240,40 +209,34 @@ trait NginxTrait
     }
 
     /**
-     * Executes the `nginx -t` command.
+     * Checks if the Nginx configuration file exists (and optionally its symlink).
      *
-     * Test the configuration file: nginx checks the configuration for correct syntax,
-     * and then tries to open files referred in the configuration.
+     * @param string                  $fileName The name of the nginx config file (ex: example.com.www).
+     * @param array|NginxOptions|null $options  Optional Nginx options to resolve paths.
+     * @param bool $checkSymlink      Whether to also check if the symlink in sites-enabled exists.
      *
-     * @param array|NginxOptions|null $options Optional install options. Can be a flat array, a NginxOptions instance, or null to use internal defaults.
-     * @param bool                    $verbose If true, outputs command execution feedback.
-     * @param bool                    $silent  If true, suppresses command output entirely.
+     * @return bool True if the file (and optionally the symlink) exists.
      *
-     * @return int Returns the exit status of the system command (0 for success).
+     * @throws DirectoryException
      */
-    public function nginxTest
-    (
-        array|NginxOptions|null $options = null ,
-        bool                    $verbose = false ,
-        bool                    $silent  = false ,
-    )
-    :int
+    public function nginxConfigExists( string $fileName, array|NginxOptions|null $options = null, bool $checkSymlink = false): bool
     {
-        $options = NginxOptions::resolve( $this->nginxOptions , [ NginxOption::TEST => true ] , $options ) ;
+        $paths = $this->resolveNginxFilePaths( $fileName , $options ) ;
 
-        if( $verbose )
+        $fileSitesAvailable = $paths[ static::FILE_SITES_AVAILABLE ] ;
+        $fileSitesEnabled   = $paths[ static::FILE_SITES_ENABLED   ] ;
+
+        if ( !is_file( $fileSitesAvailable ) )
         {
-            $this->info( '[?] Test the Nginx configuration ' ) ;
+            return false;
         }
 
-        return $this->system
-        (
-            command : static::NGINX ,
-            args    : (string) $options ,
-            silent  : $silent  ,
-            verbose : $verbose ,
-            sudo    : true     ,
-        ) ;
+        if ( $checkSymlink && !is_link($fileSitesEnabled ) )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -395,6 +358,43 @@ trait NginxTrait
     }
 
     /**
+     * Executes the `nginx -t` command.
+     *
+     * Test the configuration file: nginx checks the configuration for correct syntax,
+     * and then tries to open files referred in the configuration.
+     *
+     * @param array|NginxOptions|null $options Optional install options. Can be a flat array, a NginxOptions instance, or null to use internal defaults.
+     * @param bool                    $verbose If true, outputs command execution feedback.
+     * @param bool                    $silent  If true, suppresses command output entirely.
+     *
+     * @return int Returns the exit status of the system command (0 for success).
+     */
+    public function nginxTest
+    (
+        array|NginxOptions|null $options = null ,
+        bool                    $verbose = false ,
+        bool                    $silent  = false ,
+    )
+    :int
+    {
+        $options = NginxOptions::resolve( $this->nginxOptions , [ NginxOption::TEST => true ] , $options ) ;
+
+        if( $verbose )
+        {
+            $this->info( '[?] Test the Nginx configuration ' ) ;
+        }
+
+        return $this->system
+        (
+            command : static::NGINX ,
+            args    : (string) $options ,
+            silent  : $silent  ,
+            verbose : $verbose ,
+            sudo    : true     ,
+        ) ;
+    }
+
+    /**
      * Helper to resolve the Nginx file paths (sites-available and sites-enabled) with a specific config file name.
      *
      * @param string                  $fileName The name of the config file.
@@ -434,10 +434,4 @@ trait NginxTrait
             static::NGINX_OPTIONS        => $nginxOptions       ,
         ];
     }
-    
-    protected const string DIR_SITES_AVAILABLE  = 'dirSitesAvailable'  ;
-    protected const string DIR_SITES_ENABLED    = 'dirSitesEnabled'    ;
-    protected const string FILE_SITES_AVAILABLE = 'fileSitesAvailable' ;
-    protected const string FILE_SITES_ENABLED   = 'fileSitesEnabled'   ;
-    protected const string NGINX_OPTIONS        = 'nginxOptions'       ;
 }

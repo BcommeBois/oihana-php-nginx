@@ -34,7 +34,7 @@ namespace oihana\nginx\helpers ;
  *
  * @package oihana\nginx\helpers
  * @author  Marc Alcaraz (ekameleon)
- * @since   1.1.0
+ * @since   0.1.0
  */
 function vhostAcmeRoot( string $vhost ) :?string
 {

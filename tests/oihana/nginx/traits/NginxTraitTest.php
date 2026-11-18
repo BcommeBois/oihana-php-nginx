@@ -326,7 +326,7 @@ final class NginxTraitTest extends TestCase
     {
         $this->nginx->nginxTest( [ 'config' => '/etc/nginx/nginx.conf' , 'quiet' => true ] ) ;
 
-        $this->assertSame( [ [ 'system' , 'nginx' , '-c "/etc/nginx/nginx.conf" -q -t' , true ] ] , $this->nginx->calls ) ;
+        $this->assertSame( [ [ 'system' , 'nginx' , "-c '/etc/nginx/nginx.conf' -q -t" , true ] ] , $this->nginx->calls ) ;
     }
 
     /**

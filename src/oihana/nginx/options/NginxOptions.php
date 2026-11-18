@@ -54,6 +54,8 @@ class NginxOptions extends Options
      * ```bash
      * nginx -g "pid /var/run/nginx.pid; worker_processes `sysctl -n hw.ncpu`;"
      * ```
+     * The value reaches nginx exactly as it is set: a command between backquotes is not run, so
+     * write the value it would give (`worker_processes 4;`) or compute it before.
      * @var string|null
      */
     public ?string $global = null ;

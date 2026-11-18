@@ -58,6 +58,11 @@ and follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `.gitignore` leaves out `/build/`, `.phpunit.cache` and `.phpunit.result.cache`: a coverage run
   left its cache as a new file.
 
+- The command lines carry each value between single quotes, as `oihana/php-files` now writes
+  them: `nginx -c '/etc/nginx/nginx.conf' -q -t`. A value reaches nginx exactly as it was set,
+  and the shell no longer runs a command written between backquotes: `NginxOptions::$global`
+  says so, since nginx's own manual shows `-g` with one. The test of the line written changes.
+
 ### Fixed
 
 - **`redirectBlock()` can send visitors to `http`.** The scheme was written into the emitted line
